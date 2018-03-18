@@ -18,16 +18,12 @@ namespace LeoheatService.Controllers
         public IActionResult Index()
         {
             // Requires using Microsoft.AspNetCore.Http;
-            HttpContext.Session.SetString(SessionKeyName, "Rick");
-            HttpContext.Session.SetInt32(SessionKeyYearsMember, 3);
             return RedirectToAction("SessionNameYears");
         }
         public IActionResult SessionNameYears()
         {
-            var name = HttpContext.Session.GetString(SessionKeyName);
-            var yearsMember = HttpContext.Session.GetInt32(SessionKeyYearsMember);
 
-            return Content($"Name: \"{name}\",  Membership years: \"{yearsMember}\"");
+            return Content("In Home controller");
         }
     }
 }

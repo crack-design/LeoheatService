@@ -1,19 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Leoheat.DAL.Entities;
+﻿using Leoheat.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Leoheat.DAL
 {
-    public class LeoheatDbContext : DbContext
+    public class LeoheatDbContext : IdentityDbContext<ApplicationUser>
     {
         public LeoheatDbContext(DbContextOptions<LeoheatDbContext> options) : base(options)
         {
         }
 
         public DbSet<LeoheatObject> LeoheatObjects { get; set; }
+    }
+}
+
+namespace Leoheat.DAL
+{
+    public class ApplicationUser : IdentityUser
+    {
     }
 }
