@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeoheatService", "LeoheatService\LeoheatService.csproj", "{6B99CC51-AAAD-4065-9E8F-38864B69EFA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeoheatService", "LeoheatService\LeoheatService.csproj", "{6B99CC51-AAAD-4065-9E8F-38864B69EFA6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Leoheat.DAL", "Leoheat.DAL\Leoheat.DAL.csproj", "{C5C696D3-1469-4D55-9667-97EF59B8D5E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Leoheat.Infrastructure", "Leoheat.Infrastructure\Leoheat.Infrastructure.csproj", "{BFB72FAE-C2F2-4D1D-AC16-EE4281F7BCCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C5C696D3-1469-4D55-9667-97EF59B8D5E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5C696D3-1469-4D55-9667-97EF59B8D5E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5C696D3-1469-4D55-9667-97EF59B8D5E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFB72FAE-C2F2-4D1D-AC16-EE4281F7BCCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFB72FAE-C2F2-4D1D-AC16-EE4281F7BCCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFB72FAE-C2F2-4D1D-AC16-EE4281F7BCCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFB72FAE-C2F2-4D1D-AC16-EE4281F7BCCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

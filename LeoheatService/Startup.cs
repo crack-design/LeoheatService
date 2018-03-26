@@ -1,32 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 using Leoheat.DAL;
-using LeoheatService.ApplicationBuilderExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
-using System.IO;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using LeoheatService.Logging;
 using Leoheat.DAL.UnitOfWork;
 using Leoheat.DAL.Repository;
 using Leoheat.DAL.Entities;
-using LeoheatService.Authentication;
 using Microsoft.AspNetCore.Identity;
+using LeoheatService.Infrastructure;
 
 namespace LeoheatService
 {
     public class Startup
     {
         public static IConfiguration Configuration { get; set; }
+        public Startup(IConfiguration config)
+        {
+            Configuration = config;
+        }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -34,11 +29,16 @@ namespace LeoheatService
             //services.AddDbContext<LeoheatDbContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<LeoheatDbContext>(options =>
-            options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //Configure Identity
-            services.AddIdentity<Leoheat.DAL.ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<LeoheatDbContext>()
-                .AddDefaultTokenProviders();
+
+
+            services.AddAuthentication("cookies")
+                .AddCookie("cookies", options => options.LoginPath = "/Account/Login");
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+               .AddEntityFrameworkStores<LeoheatDbContext>()
+               .AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -61,6 +61,7 @@ namespace LeoheatService
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 options.SlidingExpiration = true;
+                options.LoginPath = "/Account/Login";
             });
 
 
@@ -84,21 +85,20 @@ namespace LeoheatService
             }
 
             loggerFactory.AddLog4Net();
-
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-            //app.UseRequestCulture();
             app.UseAuthentication();
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Home", action = "Index" },
-                    constraints: new { },
-                    dataTokens: new { locale = "uk-UK" });
-            });
+            app.UseMvcWithDefaultRoute();
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller}/{action}/{id?}",
+            //        defaults: new { controller = "Home", action = "Index" },
+            //        constraints: new { },
+            //        dataTokens: new { locale = "uk-UK" });
+            //});
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using LeoheatService.Infrastructure;
 
 namespace Leoheat.DAL
 {
@@ -15,9 +16,3 @@ namespace Leoheat.DAL
     }
 }
 
-namespace Leoheat.DAL
-{
-    public class ApplicationUser : IdentityUser
-    {
-    }
-}
