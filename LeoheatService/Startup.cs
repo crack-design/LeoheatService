@@ -12,6 +12,7 @@ using Leoheat.DAL.Repository;
 using Leoheat.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using LeoheatService.Infrastructure;
+using LeoheatService.MVCFilters;
 
 namespace LeoheatService
 {
@@ -67,7 +68,10 @@ namespace LeoheatService
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IRepository<LeoheatObject>, Repository<LeoheatObject>>();
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AddHeaderAttribute("CopyrightBy:", "Blah-blah-blah"));
+            });
 
             services.AddDistributedMemoryCache();
         }

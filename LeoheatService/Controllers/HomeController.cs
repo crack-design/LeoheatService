@@ -17,6 +17,7 @@ namespace LeoheatService.Controllers
         const string SessionKeyYearsMember = "_YearsMember";
         const string SessionKeyDate = "_Date";
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             // Requires using Microsoft.AspNetCore.Http;
