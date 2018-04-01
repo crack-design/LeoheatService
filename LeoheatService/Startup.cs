@@ -13,6 +13,7 @@ using Leoheat.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using LeoheatService.Infrastructure;
 using LeoheatService.MVCFilters;
+using LeoheatService.CustomModelBinders;
 
 namespace LeoheatService
 {
@@ -32,7 +33,7 @@ namespace LeoheatService
             services.AddDbContext<LeoheatDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //Configure Identity
-
+            services.AddDistributedMemoryCache();
 
             services.AddAuthentication("cookies")
                 .AddCookie("cookies", options => options.LoginPath = "/Account/Login");
@@ -70,7 +71,15 @@ namespace LeoheatService
             services.AddScoped<IRepository<LeoheatObject>, Repository<LeoheatObject>>();
             services.AddMvc(options =>
             {
-                options.Filters.Add(new AddHeaderAttribute("CopyrightBy:", "Blah-blah-blah"));
+                options.Filters.Add(new AddHeaderAttribute("CopyrightBy:", "LeoHeat"));
+                options.ModelBinderProviders.Insert(0, new BuildingObjectBinderProvider());
+            })
+            .AddSessionStateTempDataProvider();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.Name = "Leoheat.Session";
             });
 
             services.AddDistributedMemoryCache();
@@ -92,7 +101,20 @@ namespace LeoheatService
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Headers.ContainsKey("user-agent"))
+                {
+                    context.Items["user-agent"]=context.Request.Headers["User-Agent"].ToString();
+                }
+                else
+                {
+                    context.Items["user-agent"] = "unknown agent";
+                }
+                await next.Invoke();
+            });
             app.UseAuthentication();
+            app.UseSession();
             app.UseMvcWithDefaultRoute();
             //app.UseMvc(routes =>
             //{
