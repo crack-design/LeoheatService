@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using LeoheatService.Infrastructure;
 using LeoheatService.MVCFilters;
 using LeoheatService.CustomModelBinders;
+using LeoheatService.Filters;
 
 namespace LeoheatService
 {
@@ -66,7 +67,7 @@ namespace LeoheatService
                 options.LoginPath = "/Account/Login";
             });
 
-
+            services.AddScoped<CustomExceptionFilterAttribute>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IRepository<LeoheatObject>, Repository<LeoheatObject>>();
             services.AddMvc(options =>
